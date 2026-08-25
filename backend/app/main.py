@@ -15,10 +15,9 @@ from app.services.automatic_sync_service import (
 from app.api.role_access import router as role_access_router
 from app.api.aws_resources import router as aws_router
 from app.api.users import router as users_router
-from app.api.resources import router as resources_router
 from app.api.anomalies import router as anomalies_router
 from app.database import get_db
-from fastapi.middleware.cors import CORSMiddleware
+from app.core.config import settings
 from app.api.dashboard import router as dashboard_router
 from app.api.cost_forecast import router as cost_forecast_router
 from app.api.cost_dataset import router as cost_dataset_router
@@ -54,24 +53,13 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan,
 )
-
+# React frontend ko backend APIs access karne dena
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# STEP 2: React frontend ko backend APIs access karne dena
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:5173"
+        settings.frontend_url,
     ],
     allow_credentials=True,
     allow_methods=["*"],

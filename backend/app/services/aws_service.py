@@ -18,14 +18,20 @@ class AWSServiceError(Exception):
 
 def create_aws_session() -> boto3.Session:
     """
-    cloudcampus-dev profile se AWS session create karta hai.
+    Local environment mein AWS profile aur deployment mein
+    IAM role/environment credentials use karta hai.
     """
 
     try:
-        session = boto3.Session(
-            profile_name=settings.aws_profile,
-            region_name=settings.aws_region
-        )
+        if settings.aws_profile:
+            session = boto3.Session(
+                profile_name=settings.aws_profile,
+                region_name=settings.aws_region
+            )
+        else:
+            session = boto3.Session(
+                region_name=settings.aws_region
+            )
 
         if session.get_credentials() is None:
             raise AWSServiceError(
