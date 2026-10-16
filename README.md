@@ -102,6 +102,6 @@ Do not upload AWS access keys, database passwords, `.env` files, or other secret
 
 ## Author
 
-**Raja Saraswat**  
+**Krishna Gupta**  
 B.Tech CSE, Semester V  
 GLA University
